@@ -1,3 +1,4 @@
-html/composer.json
-html/composer.lock
-html/vendor/
+/pgadmin/*
+/html/composer.json
+/html/composer.lock
+/html/vendor/
