@@ -2,8 +2,18 @@ FROM php:7.3-fpm-alpine3.8
 RUN apk --update add curl
 RUN set -ex \
   && apk --no-cache add \
-  postgresql-dev php-pgsql autoconf build-base
+  postgresql-dev php-pgsql autoconf build-base libzip-dev \
+  freetype libpng libjpeg-turbo freetype-dev libpng-dev libjpeg-turbo-dev && \
+  docker-php-ext-configure gd \
+    --with-gd \
+    --with-freetype-dir=/usr/include/ \
+    --with-png-dir=/usr/include/ \
+    --with-jpeg-dir=/usr/include/ && \
+  NPROC=$(grep -c ^processor /proc/cpuinfo 2>/dev/null || 1) && \
+  docker-php-ext-install -j${NPROC} gd && \
+  apk del --no-cache freetype-dev libpng-dev libjpeg-turbo-dev
 RUN pecl install xdebug
-RUN docker-php-ext-install pdo_pgsql pgsql
+RUN docker-php-ext-install pdo_pgsql pgsql zip
 RUN docker-php-ext-enable xdebug
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer
+RUN composer require phpoffice/phpspreadsheet

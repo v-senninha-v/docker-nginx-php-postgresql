@@ -44,10 +44,29 @@ PASS：pgadmin
 
 データベースの追加は以下の通り
 ```
-サーバー名：自由に決めて
 HOSTNAME：pgsql
 DBNAME：postgres
 USERNAME：postgres
 PASSWORD：postgres
 PORT:5432
+```
+
+## Xdebug + VSCode configuration
+サンプル
+```json
+// launch.json
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Listen for XDebug",
+      "type": "php",
+      "request": "launch",
+      "port": 9012,
+      "pathMappings": {
+        "/var/www/html": "${workspaceFolder}/php"
+      }
+    }
+  ]
+}
 ```
