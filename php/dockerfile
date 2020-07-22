@@ -15,5 +15,12 @@ RUN set -ex \
 RUN pecl install xdebug
 RUN docker-php-ext-install pdo_pgsql pgsql zip
 RUN docker-php-ext-enable xdebug
+#Alpine Linux iconvの不具合対策
+RUN curl -SL http://ftp.gnu.org/pub/gnu/libiconv/libiconv-1.15.tar.gz | tar -xz -C ~/ &&\
+    rm /usr/bin/iconv &&\
+    mv ~/libiconv-1.15 ~/libiconv && \
+    ~/libiconv/configure --prefix=/usr/bin && \
+    make && make install
+ENV LD_PRELOAD /usr/bin/lib/preloadable_libiconv.so
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer
 # RUN composer require phpoffice/phpspreadsheet
