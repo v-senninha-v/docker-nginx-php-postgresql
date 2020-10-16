@@ -65,6 +65,11 @@ PORT:5432
       "port": 9012,
       "pathMappings": {
         "/var/www/html": "${workspaceFolder}/php"
+      },
+      "xdebugSettings": {
+        "max_children": 128,
+        "max_data": 2048,
+        "max_depth": 10
       }
     }
   ]
